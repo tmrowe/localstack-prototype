@@ -1,0 +1,16 @@
+version: '3.2'
+services:
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    ports:
+      - "4568:4568"
+      - "4572:4572"
+      - "4574:4574"
+      - "4576:4576"
+      - "4586:4586"
+    environment:
+      - SERVICES=${SERVICES-kinesis:4568, s3:4572, lambda:4574, sqs:4576}
+      - DEFAULT_REGION=${us-east-1}
+    volumes:
+      - "/tmp/localstack:/tmp/localstack"

@@ -1,0 +1,33 @@
+# Localstack Prototype
+This project is a prototype demonstrating using localstack.
+
+## Prerequisites
+The following need to be installed on your system to run this project:
+
+- [Java Development Kit 8+](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+- [Maven](https://maven.apache.org/download.cgi)
+- [Docker](https://www.docker.com/get-started)
+- [Python 2.7+](https://www.python.org/downloads/)
+- [pip](https://pip.pypa.io/en/stable/installing/)
+
+## Quick Setup
+Steps to get the project running:
+
+// TODO: Replace with Python 3.
+
+- Run `sudo easy_install pip`
+- Add Python to your path `export PATH="/Users/<YOUR_USER>/Library/Python/2.7/bin:${PATH}"`
+- Run `pip install --user localstack`
+- Run `mvn clean install`
+- Run `docker-compose up`
+
+// TODO: NEED TO CONFIRM ALL OF THESE STEPS ARE REQUIRED.
+
+This will cause [localstack](https://github.com/localstack/localstack) to spin up local instances of the parts of AWS 
+required for this project on your local machine on the following ports:
+
+- Kinesis: `http://localhost:4568`
+- S3: `http://localhost:4572`
+- Lambda: `http://localhost:4574`
+- SQS: `http://localhost:4576`
+- CloudWatch: `http://localhost:4582`

@@ -12,11 +12,11 @@ class LocalstackS3Client(
     override fun build() : AmazonS3 {
         val endpoint = AwsClientBuilder.EndpointConfiguration(url, region)
 
-        val builder = AmazonS3ClientBuilder.standard()
-        builder.setEndpointConfiguration(endpoint)
-        builder.withPathStyleAccessEnabled(true)
-
-        return builder.build()
+        return AmazonS3ClientBuilder
+            .standard()
+            .withEndpointConfiguration(endpoint)
+            .withPathStyleAccessEnabled(true)
+            .build()
     }
 
 }

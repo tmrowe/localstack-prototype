@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3
 
 class S3Setup(
     private val s3EventPersistenceBucket : String,
-    private val s3LambdaCodeBucket : String,
     private val s3RequestBucket : String
 ) {
 
@@ -14,7 +13,6 @@ class S3Setup(
         println("Running S3 Setup")
 
         client.createBucket(s3EventPersistenceBucket)
-        client.createBucket(s3LambdaCodeBucket)
         client.createBucket(s3RequestBucket)
 
         println("Buckets after setup: ${client.listBuckets()}")
@@ -25,7 +23,6 @@ class S3Setup(
         println("Running S3 Teardown")
 
         client.deleteBucket(s3EventPersistenceBucket)
-        client.deleteBucket(s3LambdaCodeBucket)
         client.deleteBucket(s3RequestBucket)
 
         println("Buckets after teardown: ${client.listBuckets()}")

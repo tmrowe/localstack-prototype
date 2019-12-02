@@ -16,10 +16,10 @@ class LocalstackKinesisClient(
         // This is required to circumvent a known issue. https://github.com/localstack/localstack/issues/592
         TestUtils.setEnv("AWS_CBOR_DISABLE", "1")
 
-        val builder = AmazonKinesisClientBuilder.standard()
-        builder.setEndpointConfiguration(endpoint)
-
-        return builder.build()
+        return AmazonKinesisClientBuilder
+            .standard()
+            .withEndpointConfiguration(endpoint)
+            .build()
     }
 
 }

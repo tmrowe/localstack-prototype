@@ -12,10 +12,10 @@ class LocalstackLambdaClient(
     override fun build() : AWSLambda {
         val endpoint = AwsClientBuilder.EndpointConfiguration(url, region)
 
-        val builder = AWSLambdaClientBuilder.standard()
-        builder.setEndpointConfiguration(endpoint)
-
-        return builder.build()
+        return AWSLambdaClientBuilder
+            .standard()
+            .withEndpointConfiguration(endpoint)
+            .build()
     }
 
 }

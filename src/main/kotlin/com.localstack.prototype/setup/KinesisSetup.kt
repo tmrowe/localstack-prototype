@@ -28,4 +28,5 @@ class KinesisSetup(
         println("Kinesis streams after teardown: ${client.listStreams()}")
         println("Kinesis Teardown Complete")
     }
+
 }

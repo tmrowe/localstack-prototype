@@ -32,4 +32,5 @@ class LambdaSetup(
         println("Buckets after teardown: ${s3Client.listBuckets()}")
         println("Lambda Teardown Complete")
     }
+
 }

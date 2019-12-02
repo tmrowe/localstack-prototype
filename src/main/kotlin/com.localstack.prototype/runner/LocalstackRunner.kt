@@ -47,4 +47,5 @@ class LocalstackRunner : ApplicationRunner {
         lambda.setup(lambdaClient, s3Client, kinesisClient)
         lambda.teardown(lambdaClient, s3Client, kinesisClient)
     }
+
 }

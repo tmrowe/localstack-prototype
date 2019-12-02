@@ -25,4 +25,5 @@ class Application {
             localstackRunner.run()
         }
     }
+
 }

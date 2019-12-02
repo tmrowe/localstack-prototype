@@ -33,4 +33,5 @@ class TestKinesisSetup {
         verify(mockAmazonKinesis).deleteStream(kinesisRequestStreamName)
         verify(mockAmazonKinesis).listStreams()
     }
+
 }

@@ -21,4 +21,5 @@ class LocalstackKinesisClient(
 
         return builder.build()
     }
+
 }

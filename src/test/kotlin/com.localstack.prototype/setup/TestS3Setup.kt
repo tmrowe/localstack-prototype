@@ -38,4 +38,5 @@ class TestS3Setup {
         verify(mockAmazonS3).deleteBucket(s3RequestBucket)
         verify(mockAmazonS3).listBuckets()
     }
+
 }

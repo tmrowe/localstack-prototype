@@ -18,4 +18,5 @@ class LocalstackS3Client(
 
         return builder.build()
     }
+
 }

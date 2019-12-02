@@ -30,4 +30,5 @@ class S3Setup(
 
         println("Buckets after teardown: ${client.listBuckets()}")
     }
+
 }

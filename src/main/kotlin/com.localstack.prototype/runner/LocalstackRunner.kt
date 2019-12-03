@@ -22,7 +22,7 @@ class LocalstackRunner : ApplicationRunner {
 
     private val awsRegion = "us-east-1"
 
-    private val s3 = S3Setup(s3EventPersistenceBucket, s3LambdaCodeBucket, s3RequestBucket)
+    private val s3 = S3Setup(s3EventPersistenceBucket, s3RequestBucket)
     private val s3LocalstackClient = LocalstackS3Client(s3Url, awsRegion)
 
     private val kinesis = KinesisSetup(kinesisRequestStreamName, kinesisShardCount)

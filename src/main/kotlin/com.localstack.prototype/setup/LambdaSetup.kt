@@ -12,26 +12,21 @@ class LambdaSetup(
     private val s3LambdaCodeBucket : String
 ) {
 
-    // TODO: Replace printlns with a Logger.
-    // TODO: Move values to a configuration file.
-
-    private val s3LambdaKey = "lambda"
-
     // TODO:
-    //  Create a real role. Should be name of your source file and then name of your function handler.
-    //  Replace lambdaJarPath with an artifact hosted somewhere and pulled by maven.
+    //  Replace printlns with a Logger.
+    //  Replace lambda with a function that reads from Kinesis and writes to SQS.
+    //  Move values to a configuration file.
+
+    private val lambdaS3Key = "lambda"
     private val lambdaJarPath = "/Users/thomas/Workspace/lambda-prototype/target/lambda-prototype-1.0.0-jar-with-dependencies.jar"
     private val lambdaFunctionName = "HelloWord"
     private val lambdaRuntime = "java8"
-    private val lambdaRole = "arn:aws:iam::123456789012:role/service-role/role-name"
+    private val lambdaRole = "arn:aws:iam::123456789012:role/lambda-role"
     private val lambdaHandler = "com.lambda.prototype.basic.HelloWorld"
     private val lambdaDescription = "Example hello world function"
     private val lambdaPublish = true
-    private val lambdaTimeout = 15
-
-    // TODO:
-    //  Replace lambda with a function that reads from Kinesis and writes to SQS.
-    //  Have Maven pull the Jar from Jenkins rather than pointing at a local file.
+    private val lambdaTimeout = 20
+    private val lambdaMemorySize = 1024
 
     fun setup(lambdaClient : AWSLambda, s3Client : AmazonS3, kinesisClient : AmazonKinesis) {
         println("Running Lambda Setup")
@@ -39,7 +34,7 @@ class LambdaSetup(
         val lambdaJar = File(lambdaJarPath)
 
         s3Client.createBucket(s3LambdaCodeBucket)
-        s3Client.putObject(s3LambdaCodeBucket, s3LambdaKey, lambdaJar)
+        s3Client.putObject(s3LambdaCodeBucket, lambdaS3Key, lambdaJar)
 
         val response = lambdaClient.createFunction(buildHelloWorldLambdaFunction())
 
@@ -53,7 +48,7 @@ class LambdaSetup(
     fun teardown(lambdaClient : AWSLambda, s3Client : AmazonS3, kinesisClient : AmazonKinesis) {
         println("Running Lambda Teardown")
 
-        s3Client.deleteObject(s3LambdaCodeBucket, s3LambdaKey)
+        s3Client.deleteObject(s3LambdaCodeBucket, lambdaS3Key)
         s3Client.deleteBucket(s3LambdaCodeBucket)
 
         val deleteFunctionRequest = DeleteFunctionRequest()
@@ -68,9 +63,7 @@ class LambdaSetup(
     private fun buildHelloWorldLambdaFunction() : CreateFunctionRequest {
         val lambdaCode = FunctionCode()
             .withS3Bucket(s3LambdaCodeBucket)
-            .withS3Key(s3LambdaKey)
-
-        // TODO: Build lambda role.
+            .withS3Key(lambdaS3Key)
 
         return CreateFunctionRequest()
             .withFunctionName(lambdaFunctionName)
@@ -81,6 +74,7 @@ class LambdaSetup(
             .withDescription(lambdaDescription)
             .withPublish(lambdaPublish)
             .withTimeout(lambdaTimeout)
+            .withMemorySize(lambdaMemorySize)
     }
 
 }

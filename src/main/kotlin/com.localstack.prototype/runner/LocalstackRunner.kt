@@ -9,6 +9,7 @@ import com.localstack.prototype.setup.S3Setup
 
 class LocalstackRunner : ApplicationRunner {
 
+    // TODO: Pull from configuration file.
     private val s3Url = "http://localhost:4572"
     private val s3EventPersistenceBucket = "d6-rpc-events"
     private val s3LambdaCodeBucket = "d6-lambda-code"

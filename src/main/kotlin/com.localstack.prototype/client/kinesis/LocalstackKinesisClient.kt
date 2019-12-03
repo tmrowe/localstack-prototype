@@ -13,7 +13,7 @@ class LocalstackKinesisClient(
     override fun build() : AmazonKinesis {
         val endpoint = AwsClientBuilder.EndpointConfiguration(url, region)
 
-        // This is required to circumvent a known issue. https://github.com/localstack/localstack/issues/592
+        // This is required to circumvent a known issue in localstack. https://github.com/localstack/localstack/issues/592
         TestUtils.setEnv("AWS_CBOR_DISABLE", "1")
 
         return AmazonKinesisClientBuilder

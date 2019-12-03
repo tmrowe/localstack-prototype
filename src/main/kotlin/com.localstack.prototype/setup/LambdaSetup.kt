@@ -1,36 +1,40 @@
 package com.localstack.prototype.setup
 
-import com.amazonaws.services.kinesis.AmazonKinesis
 import com.amazonaws.services.lambda.AWSLambda
 import com.amazonaws.services.lambda.model.CreateFunctionRequest
 import com.amazonaws.services.lambda.model.DeleteFunctionRequest
 import com.amazonaws.services.lambda.model.FunctionCode
 import com.amazonaws.services.s3.AmazonS3
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 import java.io.File
 
+@Service
 class LambdaSetup(
-    private val s3LambdaCodeBucket : String
+    @Value("\${lambda.s3.code.bucket}") private val s3LambdaCodeBucket : String,
+    @Value("\${lambda.s3.key}") private val lambdaS3Key : String,
+    @Value("\${lambda.jar.path}") private val lambdaJarPath : String,
+    @Value("\${lambda.function.name}") private val lambdaFunctionName : String,
+    @Value("\${lambda.runtime}") private val lambdaRuntime : String,
+    @Value("\${lambda.role}") private val lambdaRole : String,
+    @Value("\${lambda.handler}") private val lambdaHandler : String,
+    @Value("\${lambda.description}") private val lambdaDescription : String,
+    @Value("\${lambda.publish}") private val lambdaPublish : Boolean,
+    @Value("\${lambda.timeout}") private val lambdaTimeout : Int,
+    @Value("\${lambda.memory.size}") private val lambdaMemorySize : Int,
+    @Qualifier("getAWSLambdaClient") private val lambdaClient : AWSLambda,
+    @Qualifier("getAmazonS3Client") private val s3Client : AmazonS3
 ) {
 
     // TODO:
     //  Replace printlns with a Logger.
     //  Replace lambda with a function that reads from Kinesis and writes to SQS.
-    //  Move values to a configuration file.
 
-    private val lambdaS3Key = "lambda"
-    private val lambdaJarPath = "/Users/thomas/Workspace/lambda-prototype/target/lambda-prototype-1.0.0-jar-with-dependencies.jar"
-    private val lambdaFunctionName = "HelloWord"
-    private val lambdaRuntime = "java8"
-    private val lambdaRole = "arn:aws:iam::123456789012:role/lambda-role"
-    private val lambdaHandler = "com.lambda.prototype.basic.HelloWorld"
-    private val lambdaDescription = "Example hello world function"
-    private val lambdaPublish = true
-    private val lambdaTimeout = 20
-    private val lambdaMemorySize = 1024
-
-    fun setup(lambdaClient : AWSLambda, s3Client : AmazonS3, kinesisClient : AmazonKinesis) {
+    fun setup() {
         println("Running Lambda Setup")
 
+        println(lambdaJarPath)
         val lambdaJar = File(lambdaJarPath)
 
         s3Client.createBucket(s3LambdaCodeBucket)
@@ -45,7 +49,7 @@ class LambdaSetup(
         println("Lambda Setup Complete")
     }
 
-    fun teardown(lambdaClient : AWSLambda, s3Client : AmazonS3, kinesisClient : AmazonKinesis) {
+    fun teardown() {
         println("Running Lambda Teardown")
 
         s3Client.deleteObject(s3LambdaCodeBucket, lambdaS3Key)

@@ -12,15 +12,15 @@ class TestS3Setup {
     private val s3EventPersistenceBucket = "some bucket name 1"
     private val s3RequestBucket = "some bucket name 2"
 
-    init {
-        s3Setup = S3Setup(s3EventPersistenceBucket, s3RequestBucket)
-    }
-
     private val mockAmazonS3 = mock<AmazonS3>()
+
+    init {
+        s3Setup = S3Setup(s3EventPersistenceBucket, s3RequestBucket, mockAmazonS3)
+    }
 
     @Test
     fun `S3Setup#setup should make expected AWS calls`() {
-        s3Setup.setup(mockAmazonS3)
+        s3Setup.setup()
 
         verify(mockAmazonS3).createBucket(s3EventPersistenceBucket)
         verify(mockAmazonS3).createBucket(s3RequestBucket)
@@ -29,7 +29,7 @@ class TestS3Setup {
 
     @Test
     fun `S3Setup#teardown should make expected AWS calls`() {
-        s3Setup.teardown(mockAmazonS3)
+        s3Setup.teardown()
 
         verify(mockAmazonS3).deleteBucket(s3EventPersistenceBucket)
         verify(mockAmazonS3).deleteBucket(s3RequestBucket)

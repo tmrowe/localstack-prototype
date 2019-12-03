@@ -1,9 +1,12 @@
 package com.localstack.prototype.runner
 
+/**
+ * The production runner assumes that all required AWS services are already in place.
+ */
 class ProductionRunner : ApplicationRunner {
 
     override fun run() {
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+        println("Running application in production mode.")
     }
 
 }

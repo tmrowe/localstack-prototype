@@ -12,15 +12,15 @@ class TestKinesisSetup {
     private val kinesisRequestStreamName = "stream name 1"
     private val kinesisShardCount = 5
 
-    init {
-        kinesisSetup = KinesisSetup(kinesisRequestStreamName, kinesisShardCount)
-    }
-
     private val mockAmazonKinesis = mock<AmazonKinesis>()
+
+    init {
+        kinesisSetup = KinesisSetup(kinesisRequestStreamName, kinesisShardCount, mockAmazonKinesis)
+    }
 
     @Test
     fun `KinesisSetup#setup should make expected AWS calls`() {
-        kinesisSetup.setup(mockAmazonKinesis)
+        kinesisSetup.setup()
 
         verify(mockAmazonKinesis).createStream(kinesisRequestStreamName, kinesisShardCount)
         verify(mockAmazonKinesis).listStreams()
@@ -28,7 +28,7 @@ class TestKinesisSetup {
 
     @Test
     fun `KinesisSetup#teardown should make expected AWS calls`() {
-        kinesisSetup.teardown(mockAmazonKinesis)
+        kinesisSetup.teardown()
 
         verify(mockAmazonKinesis).deleteStream(kinesisRequestStreamName)
         verify(mockAmazonKinesis).listStreams()

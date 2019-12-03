@@ -1,31 +1,36 @@
 package com.localstack.prototype.setup
 
 import com.amazonaws.services.s3.AmazonS3
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 
+@Service
 class S3Setup(
-    private val s3EventPersistenceBucket : String,
-    private val s3RequestBucket : String
+    @Value("\${s3.event.persistence.bucket}") private val s3EventPersistenceBucket : String,
+    @Value("\${s3.request.bucket}") private val s3RequestBucket : String,
+    @Qualifier("getAmazonS3Client") private val s3Client : AmazonS3
 ) {
 
     // TODO: Replace printlns with a Logger.
 
-    fun setup(client : AmazonS3) {
+    fun setup() {
         println("Running S3 Setup")
 
-        client.createBucket(s3EventPersistenceBucket)
-        client.createBucket(s3RequestBucket)
+        s3Client.createBucket(s3EventPersistenceBucket)
+        s3Client.createBucket(s3RequestBucket)
 
-        println("Buckets after setup: ${client.listBuckets()}")
+        println("Buckets after setup: ${s3Client.listBuckets()}")
         println("S3 Setup Complete")
     }
 
-    fun teardown(client : AmazonS3) {
+    fun teardown() {
         println("Running S3 Teardown")
 
-        client.deleteBucket(s3EventPersistenceBucket)
-        client.deleteBucket(s3RequestBucket)
+        s3Client.deleteBucket(s3EventPersistenceBucket)
+        s3Client.deleteBucket(s3RequestBucket)
 
-        println("Buckets after teardown: ${client.listBuckets()}")
+        println("Buckets after teardown: ${s3Client.listBuckets()}")
     }
 
 }
